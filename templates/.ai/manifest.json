@@ -1,0 +1,21 @@
+{
+  "_comment": "Single source of truth for project state. AI agents read this on startup.",
+  "project": {
+    "name": "",
+    "description": "",
+    "status": "active"
+  },
+  "currentTask": {
+    "id": "",
+    "title": "",
+    "status": "idle",
+    "owner": "none",
+    "planFile": ".ai/plan/current.md",
+    "updatedAt": ""
+  },
+  "agents": {
+    "lastActive": "",
+    "lastModel": "",
+    "sessionCount": 0
+  }
+}

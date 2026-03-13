@@ -1,8 +1,22 @@
 # Universal Agent Collaboration Rules
 
 > Applicable to all projects, all AI models. Project-level CLAUDE.md / AGENT.md can override or extend.
+> Detailed rule files in `rules/`. State management templates in `templates/.ai/`.
 
 ---
+
+## 0. Startup Protocol
+
+Every new session, read these IN ORDER before doing anything:
+
+1. **AGENT.md / CLAUDE.md** — project rules (wins all conflicts)
+2. **`.ai/manifest.json`** — current project state
+3. **`.ai/plan/current.md`** — current task + breakpoints
+
+Context loading by task size:
+- Bug fix → plan + target file only
+- New feature → above + architecture docs
+- Architecture decision → everything
 
 ## 1. Communication & Response
 
@@ -119,3 +133,16 @@ When switching between AI models:
 | **Planning** | Strong model (Claude/GPT) | Explore, design, write plan |
 | **Execution** | Coding model (Codex/Claude) | Execute per plan |
 | **Confirmation** | Human | Final review, merge decision |
+
+## 13. Cross-Agent Review (a2a)
+
+Mandatory when: modifying business logic, shared infra, AI rules, or 2+ files.
+Skip only for: pure docs, single-file cosmetic, test-only changes.
+Verdicts: `pass` (done) / `contested` (address concerns) / `reject` (fix issues) / `blocked` (need context).
+
+## 14. Rule Sync
+
+When modifying rules/conventions themselves:
+- Update AGENT.md in the affected section
+- Add `<!-- Updated: YYYY-MM-DD by AgentName -->` marker
+- Project rules override shared rules override global rules
