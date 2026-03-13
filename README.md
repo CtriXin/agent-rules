@@ -4,10 +4,24 @@ Universal AI collaboration rules extracted from production projects. Technology-
 
 ## Quick Start
 
-1. Copy `AGENT_RULES.md` to your project root as `CLAUDE.md` or `AGENT.md`
-2. Copy `templates/.ai/` to your project root as `.ai/`
-3. Fill in `.ai/manifest.json` with your project info
-4. AI agents will follow the rules and use `.ai/` for state tracking
+### One-liner (remote, no clone needed)
+
+```bash
+cd your-project && curl -fsSL https://raw.githubusercontent.com/CtriXin/agent-rules/main/setup.sh | bash
+```
+
+### Local (if you already cloned)
+
+```bash
+cd your-project && bash /path/to/agent-rules/setup.sh
+```
+
+The script will:
+- Create `.ai/` state management structure
+- Add rules as `CLAUDE.md` (or `AGENT_RULES.md` if CLAUDE.md exists)
+- **Never overwrite** existing `CLAUDE.md` or `AGENT.md`
+- Update `.gitignore` for session-specific files
+- Show warnings for any conflicts
 
 ## Structure
 
