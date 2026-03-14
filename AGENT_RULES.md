@@ -89,9 +89,9 @@ If you **must** violate: add `// REDLINE_EXCEPTION: {reason}`
 ## 7. Documentation Sync
 
 - **Every code change must sync corresponding documentation**
-- Never directly delete docs — move outdated docs to `docs/archive/`
+- If the project has an archive location such as `docs/archive/`, move outdated docs there instead of deleting them
 - After any module change, update the module's doc at minimum
-- If scripts are modified, sync the scripts index
+- If the project maintains a scripts index or progress files, sync them when relevant
 
 ## 8. Sensitive Operations
 
@@ -116,7 +116,7 @@ The following require explicit user confirmation BEFORE execution:
 
 - **File system is the only reliable state source**
 - Don't rely on session memory for critical state
-- All task state must persist to files (TODO.md, PLAN.md, etc.)
+- All task state must persist to files (`.ai/plan/current.md`, TODO/PLAN docs, or equivalent)
 - Plan file = single source of truth for current task
 
 ## 11. Multi-AI Handoff
@@ -146,3 +146,14 @@ When modifying rules/conventions themselves:
 - Update AGENT.md in the affected section
 - Add `<!-- Updated: YYYY-MM-DD by AgentName -->` marker
 - Project rules override shared rules override global rules
+
+## 15. TODO Management (Four Quadrants)
+<!-- Updated: 2026-03-14 by Claude -->
+
+- **Plan phase or new task → must list TODOs in four-quadrant format** (Urgent+Important / Important+Not Urgent / Urgent+Not Important / Neither)
+- TODO file: `.ai/plan/TODO.md` (project-level), `~/.openclaw/TODO.md` (global)
+- Each item: checkbox + source tag (`@claude`/`@codex`/`@user`) + created date
+- On completion: mark `[x]`, add completed date
+- **Archive**: At plan start, move `[x]` items to `docs/archive/todo-archive-YYYY-MM.md` (monthly shard, append-only, never delete)
+- Archive preserves full metadata for historical traceability
+- See `rules/todo-management.md` for full specification

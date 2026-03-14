@@ -13,19 +13,20 @@ This is not optional. Outdated documentation is worse than no documentation beca
 | New file/module | Create module doc |
 | Modified behavior | Update module doc |
 | New API/endpoint | Update API docs |
-| Changed scripts | Sync scripts index |
+| Changed scripts | Sync scripts index if the project maintains one |
 | Architecture change | Update diagrams |
-| Sprint progress | Update PLAN.md + TODO.md |
+| Sprint progress | Update PLAN/TODO docs if the project uses them |
 
 ## How to Handle Outdated Docs
 
 **Never directly delete documentation.** Instead:
 
-1. Move to `docs/archive/` with classification:
+1. Move to the project's archive location with classification when one exists, for example:
    - `docs/archive/outdated/` — no longer accurate
    - `docs/archive/revised/` — replaced by newer version
    - `docs/archive/deprecated/` — feature removed
-2. Name format: `YYYYMMDD-original_name-reason.md`
+2. If no archive location exists, mark the doc as deprecated in place until the project defines one
+3. Preferred name format: `YYYYMMDD-original_name-reason.md`
 
 ## Diagram Maintenance
 

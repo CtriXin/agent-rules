@@ -49,9 +49,12 @@ if [[ -z "$SCRIPT_DIR" ]] || [[ ! -f "$SCRIPT_DIR/AGENT_RULES.md" ]]; then
              "$SCRIPT_DIR/templates/.ai/modules/_template"
 
     curl -fsSL "$REMOTE_BASE/AGENT_RULES.md" -o "$SCRIPT_DIR/AGENT_RULES.md"
+    curl -fsSL "$REMOTE_BASE/templates/AGENTS.md" -o "$SCRIPT_DIR/templates/AGENTS.md"
+    curl -fsSL "$REMOTE_BASE/templates/AI_BOOTSTRAP.md" -o "$SCRIPT_DIR/templates/AI_BOOTSTRAP.md"
     curl -fsSL "$REMOTE_BASE/templates/.ai/manifest.json" -o "$SCRIPT_DIR/templates/.ai/manifest.json"
     curl -fsSL "$REMOTE_BASE/templates/.ai/workflow.md" -o "$SCRIPT_DIR/templates/.ai/workflow.md"
     curl -fsSL "$REMOTE_BASE/templates/.ai/plan/current.md" -o "$SCRIPT_DIR/templates/.ai/plan/current.md"
+    curl -fsSL "$REMOTE_BASE/templates/.ai/plan/TODO.md" -o "$SCRIPT_DIR/templates/.ai/plan/TODO.md"
     curl -fsSL "$REMOTE_BASE/templates/.ai/startup/STARTUP_BRIEF.md" -o "$SCRIPT_DIR/templates/.ai/startup/STARTUP_BRIEF.md"
     curl -fsSL "$REMOTE_BASE/templates/.ai/modules/_template/doc.md" -o "$SCRIPT_DIR/templates/.ai/modules/_template/doc.md"
     ok "Downloaded"
@@ -109,6 +112,10 @@ copy_if_new "$SCRIPT_DIR/templates/.ai/plan/current.md" \
             "$TARGET_DIR/.ai/plan/current.md" \
             ".ai/plan/current.md"
 
+copy_if_new "$SCRIPT_DIR/templates/.ai/plan/TODO.md" \
+            "$TARGET_DIR/.ai/plan/TODO.md" \
+            ".ai/plan/TODO.md"
+
 copy_if_new "$SCRIPT_DIR/templates/.ai/startup/STARTUP_BRIEF.md" \
             "$TARGET_DIR/.ai/startup/STARTUP_BRIEF.md" \
             ".ai/startup/STARTUP_BRIEF.md"
@@ -124,11 +131,13 @@ ok ".ai/summaries/ (directory)"
 echo ""
 
 # ── Step 2: Handle CLAUDE.md / AGENT.md ─────────────────────────
-echo -e "${BOLD}Step 2: AI rules file${NC}"
+echo -e "${BOLD}Step 2: AI rules and entry files${NC}"
 
 HAS_CLAUDE=false
 HAS_AGENT=false
 RULES_INSTALLED=false
+AGENTS_INSTALLED=false
+BOOTSTRAP_INSTALLED=false
 
 [[ -f "$TARGET_DIR/CLAUDE.md" ]] && HAS_CLAUDE=true
 [[ -f "$TARGET_DIR/AGENT.md" ]] && HAS_AGENT=true
@@ -176,6 +185,16 @@ else
     RULES_INSTALLED=true
 fi
 
+copy_if_new "$SCRIPT_DIR/templates/AGENTS.md" \
+            "$TARGET_DIR/AGENTS.md" \
+            "AGENTS.md"
+[[ -f "$TARGET_DIR/AGENTS.md" ]] && AGENTS_INSTALLED=true
+
+copy_if_new "$SCRIPT_DIR/templates/AI_BOOTSTRAP.md" \
+            "$TARGET_DIR/AI_BOOTSTRAP.md" \
+            "AI_BOOTSTRAP.md"
+[[ -f "$TARGET_DIR/AI_BOOTSTRAP.md" ]] && BOOTSTRAP_INSTALLED=true
+
 echo ""
 
 # ── Step 3: Update .gitignore ───────────────────────────────────
@@ -221,10 +240,13 @@ echo -e "  ${GREEN}Installed:${NC}"
 echo "    .ai/manifest.json        — project state"
 echo "    .ai/workflow.md           — execution flow"
 echo "    .ai/plan/current.md      — task plan template"
+echo "    .ai/plan/TODO.md         — four-quadrant TODO template"
 echo "    .ai/startup/STARTUP_BRIEF.md — session brief"
 echo "    .ai/modules/_template/   — module doc template"
 echo "    .ai/summaries/           — review outputs"
 $RULES_INSTALLED && echo "    CLAUDE.md or AGENT_RULES.md — AI rules"
+$AGENTS_INSTALLED && echo "    AGENTS.md                — Codex bootstrap"
+$BOOTSTRAP_INSTALLED && echo "    AI_BOOTSTRAP.md          — cross-AI startup guide"
 echo ""
 
 if [[ ${#CONFLICTS[@]} -gt 0 ]]; then
